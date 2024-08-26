@@ -1,0 +1,32 @@
+/*
+Theme Name: Act WordPress course
+Theme URI: https://actit.ps
+Author: Abdalsalaam Halawa
+Author URI: https://github.com/abdalsalaam
+Description: Bussiness theme etc ect ..
+Tags: bussiness, startup
+Version: 1.0
+Requires at least: 5.0
+Tested up to: 6.6
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: actcourse
+*/
+
+.service-details ul li::before{
+    content: "\f26b";
+    display: inline-block;
+    font-family: bootstrap-icons !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: -.125em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 20px;
+    margin-right: 8px;
+    color: var(--accent-color);
+}
