@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Registers theme supported feature.
+ *
+ * @return void
+ */
 function actcourse_after_setup_theme() {
 	add_theme_support( 'title-tag' );
 
@@ -44,13 +49,22 @@ function actcourse_include_assets() {
 
 add_action( 'wp_enqueue_scripts', 'actcourse_include_assets' );
 
+/**
+ * Register menus.
+ *
+ * @return void
+ */
 function actcourse_menu_register() {
 	register_nav_menu( 'actcourse-header', __( 'Header menu', 'actcourse' ) );
 }
 
 add_action( 'init', 'actcourse_menu_register' );
 
-
+/**
+ * Register service post type.
+ *
+ * @return void
+ */
 function actcourse_create_services_post_type() {
 	$labels = array(
 		'name'               => __( 'Services', 'actcourse' ),
@@ -82,6 +96,11 @@ function actcourse_create_services_post_type() {
 add_action( 'init', 'actcourse_create_services_post_type' );
 
 
+/**
+ * Register sidebars.
+ *
+ * @return void
+ */
 function actcourse_widgets_init() {
 	register_sidebar( array(
 		'name'           => __( 'Primary Sidebar', 'actcourse' ),
@@ -104,9 +123,15 @@ function actcourse_widgets_init() {
 
 add_action( 'widgets_init', 'actcourse_widgets_init' );
 
+/**
+ * Modify excerpt length.
+ *
+ * @param int $length Excerpt length.
+ *
+ * @return int
+ */
 function actcourse_excerpt_length( $length ) {
 	return 20;
 }
-add_filter( 'excerpt_length', 'actcourse_excerpt_length', 1000 );
 
-
+add_filter( 'excerpt_length', 'actcourse_excerpt_length' );
