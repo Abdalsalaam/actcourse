@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Registers theme supported feature.
  *
@@ -93,8 +92,22 @@ function actcourse_create_services_post_type() {
 	register_post_type( 'service', $args );
 }
 
-add_action( 'init', 'actcourse_create_services_post_type' );
+add_action( 'init', 'actcourse_create_services_post_type', 10 );
 
+/**
+ * Register service taxonomies.
+ */
+function actcourse_register_taxonomy() {
+	$args = array(
+		'label'        => __( 'Services type', 'actcourse' ),
+		'public'       => true,
+		'hierarchical' => true,
+	);
+
+	register_taxonomy( 'service_type', 'service', $args );
+}
+
+add_action( 'init', 'actcourse_register_taxonomy' );
 
 /**
  * Register sidebars.

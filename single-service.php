@@ -16,8 +16,18 @@ get_header( 'page' );
 					if ( have_posts() ) : while ( have_posts() ) : the_post();
 						?>
 						<?php the_post_thumbnail( 'post-thumbnail', array( 'class' => 'img-fluid services-img' ) ); ?>
+                        <div>
+							<?php
+							$service_types = get_the_terms( get_the_ID(), 'service_type' );
+							if ( $service_types || ! is_wp_error( $service_types ) ) {
+								foreach ( $service_types as $service_type ) {
+									echo '<a style="padding: 0 12px;" href="' . get_term_link( $service_type ) . '">' . $service_type->name . '</a>';
+								}
+							}
+							?>
+                        </div>
                         <h3><?php the_title();?></h3>
-						<?php the_content();?>
+						<?php the_content(); ?>
 					<?php
 					endwhile;
 					endif;
