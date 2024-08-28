@@ -27,6 +27,12 @@ get_header( 'page' );
 							?>
                         </div>
                         <h3><?php the_title();?></h3>
+                        <strong>
+                            <?php
+                            $service_meta = get_post_meta( $post->ID );
+                            echo 'Price : ' . esc_html( $service_meta['actcourse_service_price'][0] ) . '$';
+                            ?>
+                        </strong>
 						<?php the_content(); ?>
 					<?php
 					endwhile;

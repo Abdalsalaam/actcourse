@@ -148,3 +148,33 @@ function actcourse_excerpt_length( $length ) {
 }
 
 add_filter( 'excerpt_length', 'actcourse_excerpt_length' );
+
+/**
+ * Register meta box for post.
+ */
+function actcourse_register_meta_box() {
+	$screen = array(
+		'service',
+	);
+
+	add_meta_box( 'service_custom_data', esc_html__( 'Service Data', 'actcourse' ), 'actcourse_service_data_box', $screen );
+}
+
+add_action( 'add_meta_boxes', 'actcourse_register_meta_box' );
+
+function actcourse_service_data_box() {
+    global $post;
+    $service_price = get_post_meta( $post->ID, 'actcourse_service_price', true );
+	?>
+	<label for="service_price"><?php echo esc_html__( 'Price:', 'actcourse' );?></label>
+	<input type="number" name="service_price" id="service_price" value="<?php echo $service_price ? intval( $service_price ) : 0 ;?>">
+<?php
+}
+
+function actcourse_save_service_data( $post_id ) {
+	if ( array_key_exists( 'service_price', $_POST ) ) {
+
+		update_post_meta( $post_id, 'actcourse_service_price', sanitize_text_field( $_POST['service_price'] ) );
+	}
+}
+add_action( 'save_post', 'actcourse_save_service_data' );
