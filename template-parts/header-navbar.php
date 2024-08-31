@@ -8,11 +8,9 @@ if ( function_exists( 'wp_body_open' ) ) {
 
 <header id="header" class="header d-flex align-items-center sticky-top">
 	<div class="container-fluid container-xl position-relative d-flex align-items-center">
-
-
-		<a href="<?php echo get_home_url();?>" class="logo d-flex align-items-center me-auto">
-			<?php echo get_custom_logo(); ?>
-		</a>
+		<div class="logo d-flex align-items-center me-auto">
+			<?php the_custom_logo(); ?>
+		</div>
 
 		<nav id="navmenu" class="navmenu">
             <?php
