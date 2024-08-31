@@ -8,29 +8,29 @@
 	</div><!-- End Section Title -->
 
 	<div class="container">
-		<div class="row gy-4">
+		<div class="row gy-4 services-list">
 			<?php
 			$service_query = new WP_Query(
 				array(
-					'post_type' => 'service',
-					'post_status' => 'publish',
+					'post_type'         => 'service',
+					'post_status'       => 'publish',
+                    'posts_per_page'    => $args['posts_per_page'] ?? 4,
+                    'paged'             => 1,
 				)
 			);
+
 			if ( $service_query->have_posts() ) : while ( $service_query->have_posts() ) : $service_query->the_post();
-				?>
-				<div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
-					<div class="service-item position-relative">
-						<i class="bi bi-activity"></i>
-						<h4><a href="<?php the_permalink();?>" class="stretched-link"><?php the_title();?></a></h4>
-						<p><?php the_excerpt();?></p>
-					</div>
-				</div><!-- End Service Item -->
-			<?php
+				get_template_part( 'template-parts/services/service-content' );
 			endwhile;
 			endif;
 			wp_reset_postdata();
 			?>
 		</div>
+        <div class="text-center">
+            <?php
+            actcourse_get_services_pagination();
+            ?>
+        </div>
 	</div>
 
 </section><!-- /Services Section -->

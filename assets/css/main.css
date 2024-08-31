@@ -154,8 +154,8 @@ h6 {
   line-height: 1;
 }
 
-.header .logo img {
-  max-height: 36px;
+img.custom-logo {
+  max-height: 36px !important;
   width: auto;
   margin-right: 8px;
 }

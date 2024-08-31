@@ -30,3 +30,19 @@ Text Domain: actcourse
     margin-right: 8px;
     color: var(--accent-color);
 }
+
+nav.pagination .page-number{
+    padding: 10px;
+    border: solid 1px #f1f1f1;
+    margin-right: 10px;
+}
+
+#load-more{
+    background: var(--accent-color);
+    color: var(--contrast-color);
+    border: 0;
+    border-radius: 20px;
+    padding: 10px;
+    width: 200px;
+    margin: 50px auto auto auto;
+}

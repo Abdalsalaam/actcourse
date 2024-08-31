@@ -20,7 +20,15 @@
 
 		<div class="row gy-4">
 			<?php
-			if ( have_posts() ) : while ( have_posts() ) : the_post();
+			$latest_posts = new WP_Query(
+				array(
+					'post_type'         => 'post',
+					'post_status'       => 'publish',
+					'posts_per_page'    => $args['posts_per_page'] ?? 4,
+				)
+			);
+
+			if ( $latest_posts->have_posts() ) : while ( $latest_posts->have_posts() ) : $latest_posts->the_post();
 
 				?>
 				<div class="col-lg-6" data-aos="zoom-in" data-aos-delay="200">

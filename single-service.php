@@ -19,7 +19,7 @@ get_header( 'page' );
                         <div>
 							<?php
 							$service_types = get_the_terms( get_the_ID(), 'service_type' );
-							if ( $service_types || ! is_wp_error( $service_types ) ) {
+							if ( $service_types && ! is_wp_error( $service_types ) ) {
 								foreach ( $service_types as $service_type ) {
 									echo '<a style="padding: 0 12px;" href="' . get_term_link( $service_type ) . '">' . $service_type->name . '</a>';
 								}
@@ -29,8 +29,12 @@ get_header( 'page' );
                         <h3><?php the_title();?></h3>
                         <strong>
                             <?php
-                            $service_meta = get_post_meta( $post->ID );
-                            echo 'Price : ' . esc_html( $service_meta['actcourse_service_price'][0] ) . '$';
+                            $service_data = actcourse_get_service_data( $post->ID );
+                            if ( $service_data['price'] > 0 ) {
+	                            echo __( 'Price: ', 'actcourse' ) . $service_data['price'];
+                            } else {
+                                echo __( 'Free', 'actcourse' );
+                            }
                             ?>
                         </strong>
 						<?php the_content(); ?>

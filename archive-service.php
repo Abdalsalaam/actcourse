@@ -1,6 +1,4 @@
 <?php
 get_header();
-?>
-This is the services archive!
-<?php
+get_template_part( 'template-parts/services/section', '', array(  'posts_per_page' => 12 ) );
 get_footer();

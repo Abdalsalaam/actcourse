@@ -32,8 +32,8 @@ function actcourse_include_assets() {
 	wp_enqueue_style( 'glightbox-style', get_template_directory_uri() . '/assets/vendor/glightbox/css/glightbox.min.css', array(), '1.0' );
 	wp_enqueue_style( 'swiper-style', get_template_directory_uri() . '/assets/vendor/swiper/swiper-bundle.min.css', array(), '1.0' );
 
-	wp_enqueue_style( 'main-style', get_template_directory_uri() . '/assets/css/main.css', array(), '1.0' );
-	wp_enqueue_style( 'theme-style', get_stylesheet_uri(), array(), '1.0' );
+	wp_enqueue_style( 'main-style', get_template_directory_uri() . '/assets/css/main.css', array(), '1.2' );
+	wp_enqueue_style( 'theme-style', get_stylesheet_uri(), array(), '1.2' );
 
 	// Include JS files.
 	wp_enqueue_script( 'bootstrap', get_template_directory_uri() . '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js', array(), '1.0', true );
@@ -44,6 +44,17 @@ function actcourse_include_assets() {
 	wp_enqueue_script( 'imagesloaded', get_template_directory_uri() . '/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js', array(), '1.0', true );
 	wp_enqueue_script( 'isotope', get_template_directory_uri() . '/assets/vendor/isotope-layout/isotope.pkgd.min.js', array(), '1.0', true );
 	wp_enqueue_script( 'main', get_template_directory_uri() . '/assets/js/main.js', array(), '1.0', true );
+	wp_enqueue_script( 'theme-functions', get_template_directory_uri() . '/assets/js/theme-functions.js', array( 'jquery' ),  	filemtime( get_template_directory() . '/assets/js/theme-functions.js' ), true );
+
+    wp_localize_script( 'theme-functions', 'act_data', array(
+            'act_ajax_url'   => admin_url( 'admin-ajax.php' ),
+            'posts_per_page' => 8, // Todo: Add theme option.
+            'texts'          => array(
+                    'loading'        => __( 'Loading', 'actcourse' ),
+                    'loadmore'       => __( 'Load More', 'actcourse' ),
+                    'nomoreservices' => __( 'No more services', 'actcourse' ),
+            ),
+    ) );
 }
 
 add_action( 'wp_enqueue_scripts', 'actcourse_include_assets' );
@@ -178,3 +189,57 @@ function actcourse_save_service_data( $post_id ) {
 	}
 }
 add_action( 'save_post', 'actcourse_save_service_data' );
+
+/**
+ * Service data.
+ */
+function actcourse_get_service_data( int $service_id ) {
+	$service_meta = get_post_meta( $service_id );
+
+	return array(
+		'price'    => $service_meta['actcourse_service_price'][0] ?? '',
+		'features' => $service_meta['actcourse_service_features'] ?? array(),
+	);
+}
+
+/**
+ * Get services pagination
+ */
+function actcourse_get_services_pagination() {
+	$pagination_type ='load_more'; // ToDO: Add theme option for pagination type;
+
+    if ( 'pagination' === $pagination_type ) {
+	    the_posts_pagination(
+		    array(
+			    'before_page_number' => '<span class="page-number">',
+			    'after_page_number'  => '</span>',
+		    )
+	    );
+    }
+
+    if ( 'load_more' === $pagination_type ) {
+        echo '<button id="load-more" data-paged="1">' . esc_html__( 'Load more', 'actcourse' ) . '</button>';
+    }
+}
+
+function actcourse_load_more_services() {
+	$service_query = new WP_Query(
+		array(
+			'post_type'         => 'service',
+			'post_status'       => 'publish',
+			'posts_per_page'    => $_POST['posts_per_page'],
+			'paged'             => $_POST['page'],
+		)
+	);
+
+	if ( $service_query->have_posts() ) : while ( $service_query->have_posts() ) : $service_query->the_post();
+		get_template_part( 'template-parts/services/service-content' );
+	endwhile;
+    else:
+        return '';
+	endif;
+	wp_reset_postdata();
+
+    wp_die();
+}
+add_action( 'wp_ajax_actcourse_load_more_services', 'actcourse_load_more_services' );
