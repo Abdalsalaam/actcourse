@@ -32,4 +32,38 @@ jQuery(document).ready(function($) {
             }
         });
     } );
+
+    // Contact form.
+    $('#contact-us-form').on('submit', function(e) {
+        e.preventDefault();
+
+        var form = $(this);
+        var formData = form.serialize();
+
+        $.ajax({
+            url: act_data.act_ajax_url,
+            type: 'POST',
+            data:{
+                action: 'actcourse_contact_us_send_email',
+                form_data :  formData,
+                contact_nonce : $('#contact_nonce').val()
+            },
+            beforeSend: function() {
+                $('.loading').show();
+                $('.error-message').hide();
+                $('.sent-message').hide();
+            },
+            success: function( response ) {
+                $('.loading').hide();
+
+                if ( response.success === true ) {
+                    $('.sent-message').html( response.data );
+                    $('.sent-message').show();
+                } else {
+                    $('.error-message').html( response.data );
+                    $('.error-message').show();
+                }
+            }
+        });
+    });
 });

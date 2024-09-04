@@ -243,3 +243,43 @@ function actcourse_load_more_services() {
     wp_die();
 }
 add_action( 'wp_ajax_actcourse_load_more_services', 'actcourse_load_more_services' );
+add_action( 'wp_ajax_nopriv_actcourse_load_more_services', 'actcourse_load_more_services' );
+
+
+/**
+ * Send contact us emails.
+ *
+ * @return void
+ */
+function actcourse_contact_us_send_email() {
+
+    if ( ! isset( $_POST['contact_nonce'] ) || ! wp_verify_nonce( $_POST['contact_nonce'], 'actcourse_contact_form' ) ) {
+	    wp_send_json_error( 'Invalid nonce' );
+	    wp_die();
+    }
+
+	parse_str( $_POST['form_data'], $contact_data );
+
+	$name    = sanitize_text_field( $contact_data['name'] );
+	$email   = sanitize_email( $contact_data['email'] );
+	$subject = sanitize_text_field( $contact_data['subject'] );
+	$message = sanitize_text_field( $contact_data['message'] );
+
+    if ( empty( $name ) || empty( $email ) || empty( $message ) || empty( $subject ) ) {
+        wp_send_json_error( 'All fields are required' );
+    }
+
+    $to = get_option( 'admin_email' );
+	$headers[] = 'From: '.$name.' <'.$email.'>';
+
+	if ( wp_mail( $to, $subject, $message, $headers ) ) {
+        wp_send_json_success( __( 'Your message has been sent.', 'actcourse' ) );
+    } else {
+		wp_send_json_error( 'Failed to send your message!' );
+	}
+
+	wp_die();
+}
+add_action( 'wp_ajax_actcourse_contact_us_send_email', 'actcourse_contact_us_send_email' );
+add_action( 'wp_ajax_nopriv_actcourse_contact_us_send_email', 'actcourse_contact_us_send_email' );
+

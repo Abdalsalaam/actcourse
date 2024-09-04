@@ -28,5 +28,7 @@ get_header();
 
     <?php get_template_part( 'template-parts/blog/latest-posts' ); ?>
 
+    <?php get_template_part( 'template-parts/contact-us' ); ?>
+
 <?php
 get_footer();
