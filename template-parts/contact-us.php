@@ -32,7 +32,7 @@
 					<i class="bi bi-envelope flex-shrink-0"></i>
 					<div>
 						<h3>Email Us</h3>
-						<p>info@example.com</p>
+						<p><?php echo get_theme_mod( 'actcourse_contact_email' );?></p>
 					</div>
 				</div><!-- End Info Item -->
 

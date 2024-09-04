@@ -283,3 +283,7 @@ function actcourse_contact_us_send_email() {
 add_action( 'wp_ajax_actcourse_contact_us_send_email', 'actcourse_contact_us_send_email' );
 add_action( 'wp_ajax_nopriv_actcourse_contact_us_send_email', 'actcourse_contact_us_send_email' );
 
+/**
+ * Includes required files.
+ */
+require_once 'includes/theme-options.php';
