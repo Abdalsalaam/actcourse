@@ -39,22 +39,21 @@ function actcourse_customize_register( WP_Customize_Manager $wp_customize ) {
 	$wp_customize->add_setting( 'actcourse_hero_section_title', array(
 		'type'      => 'theme_mod',
 		'default'   => 'Grow your business with Vesperr',
-
 		'transport' => 'refresh',
 	) );
 
 	$wp_customize->add_control( 'actcourse_hero_section_title_control', array(
-		'label'    => __( 'Section Title', 'actcourse' ),
+		'label'       => __( 'Section Title', 'actcourse' ),
 		'description' => '..',
-		'section'  => 'hero_section',
-		'settings' => 'actcourse_hero_section_title',
+		'section'     => 'hero_section',
+		'settings'    => 'actcourse_hero_section_title',
 	) );
 
 
 	// Add contact section.
 	$wp_customize->add_section( 'contact_section', array(
-		'title'       => __( 'Contact us Section', 'actcourse' ),
-		'panel'       => 'actcourse_theme_options',
+		'title' => __( 'Contact us Section', 'actcourse' ),
+		'panel' => 'actcourse_theme_options',
 	) );
 
 	$wp_customize->add_setting( 'actcourse_contact_email', array(
