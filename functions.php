@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * Registers theme supported feature.
  *
@@ -286,4 +290,5 @@ add_action( 'wp_ajax_nopriv_actcourse_contact_us_send_email', 'actcourse_contact
 /**
  * Includes required files.
  */
-require_once 'includes/theme-options.php';
+require_once get_template_directory() . '/includes/theme-options.php';
+require_once get_template_directory() . '/includes/theme-settings.php';
